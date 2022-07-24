@@ -224,6 +224,7 @@ int main( int argc, char **argv )
 
   originalMessageHandler = qInstallMessageHandler( qfMessageHandler );
   app.initQgis();
+  qInfo() << "Init QGIS done";
 
   //set NativeFormat for settings
   QSettings::setDefaultFormat( QSettings::NativeFormat );
@@ -248,6 +249,7 @@ int main( int argc, char **argv )
   app.installTranslator( &qtTranslator );
   app.installTranslator( &qfieldTranslator );
 
+  qInfo() << "Translations loaded";
   QgisMobileapp mApp( &app );
 
 #if WITH_SENTRY

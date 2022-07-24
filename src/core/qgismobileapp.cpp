@@ -174,6 +174,7 @@ QgisMobileapp::QgisMobileapp( QgsApplication *app, QObject *parent )
   , mFirstRenderingFlag( true )
   , mApp( app )
 {
+  qInfo() << "QgisMobileapp::QgisMobileapp";
   // Set a nicer default hyperlink color to be used in QML Text items
   QPalette palette = app->palette();
   palette.setColor( QPalette::Link, QColor( 128, 204, 40 ) );
@@ -191,6 +192,7 @@ QgisMobileapp::QgisMobileapp( QgsApplication *app, QObject *parent )
 
   AppInterface::setInstance( mIface );
 
+  qInfo() << "set ifac instance";
   //set the authHandler to qfield-handler
   std::unique_ptr<QgsNetworkAuthenticationHandler> handler;
   mAuthRequestHandler = new QFieldAppAuthRequestHandler();
@@ -233,6 +235,7 @@ QgisMobileapp::QgisMobileapp( QgsApplication *app, QObject *parent )
   QFontDatabase::addApplicationFont( ":/fonts/Cadastra-Semibolditalic.ttf" );
   QFontDatabase::addApplicationFont( ":/fonts/CadastraSymbol-Mask.ttf" );
   QFontDatabase::addApplicationFont( ":/fonts/CadastraSymbol-Regular.ttf" );
+    qInfo() << "fonts initialized";
 
   mProject = QgsProject::instance();
   mGpkgFlusher = std::make_unique<QgsGpkgFlusher>( mProject );
@@ -251,8 +254,10 @@ QgisMobileapp::QgisMobileapp( QgsApplication *app, QObject *parent )
     settings.setValue( QStringLiteral( "positioningDevice" ), QString() );
   }
 
+  qInfo() << "init declarative start";
   // cppcheck-suppress leakReturnValNotUsed
   initDeclarative();
+  qInfo() << "init declarative end";
 
   if ( !dataDirs.isEmpty() )
   {
@@ -323,9 +328,14 @@ QgisMobileapp::QgisMobileapp( QgsApplication *app, QObject *parent )
     }
   }
 
+  qInfo() << "config loaded (if any)";
+
   PlatformUtilities::instance()->setScreenLockPermission( false );
 
+  qInfo() << "loading qml";
+  // connect( this, &QQmlEngine::warnings, this, [](const QList<QQmlError> &warnings) {} );
   load( QUrl( "qrc:/qml/qgismobileapp.qml" ) );
+  qInfo() << "qml loaded";
 
   connect( this, &QQmlApplicationEngine::quit, app, &QgsApplication::quit );
 
