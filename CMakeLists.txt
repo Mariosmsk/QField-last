@@ -121,11 +121,7 @@ find_package(${QT_PKG} COMPONENTS Concurrent Core Qml Gui Xml Positioning Widget
 find_package(${QT_PKG} COMPONENTS PrintSupport QUIET)
 
 find_package(QGIS REQUIRED)
-if(WITH_VCPKG)
-  find_package(PROJ)
-else()
-  find_package(Proj)
-endif()
+find_package(PROJ REQUIRED)
 find_package(GDAL)
 find_package(Qca REQUIRED)
 find_package(QtKeychain)
