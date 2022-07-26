@@ -160,15 +160,6 @@ if(WITH_VCPKG)
   function(copy_resource source target)
     add_custom_command(TARGET deploy
       POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/output/bin/${target}"
-    )
-    add_custom_command(TARGET deploy
-                      POST_BUILD
-                      COMMAND ${CMAKE_COMMAND} -E copy_directory "${source}" "${CMAKE_BINARY_DIR}/output/bin/${target}"
-    )
-
-    add_custom_command(TARGET deploy
-      POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E make_directory "${SHARE_DIR}/${target}"
     )
     add_custom_command(TARGET deploy
