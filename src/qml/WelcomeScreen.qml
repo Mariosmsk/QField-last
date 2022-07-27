@@ -131,7 +131,7 @@ Page {
               icon.source: Theme.getThemeIcon( 'ic_create_white_24dp' )
 
               onClicked: {
-                Qt.openUrlExternally("https://www.qfield.org/")
+                Qt.openUrlExternally("https://www.google.com/")
                 feedbackView.Layout.preferredHeight = 0
               }
             }
