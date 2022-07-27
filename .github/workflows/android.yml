@@ -191,6 +191,12 @@ jobs:
           curl -sL https://sentry.io/get-cli/ | bash
           sentry-cli upload-dif -o opengisch -p qfield ${{ env.CMAKE_BUILD_DIR }}/android-build/build/intermediates/merged_native_libs/release
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: failure()
+        with:
+          limit-access-to-actor: true
+
   deploy_to_playstore:
     runs-on: ubuntu-20.04
     needs: build
