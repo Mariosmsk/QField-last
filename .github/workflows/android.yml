@@ -191,39 +191,6 @@ jobs:
           curl -sL https://sentry.io/get-cli/ | bash
           sentry-cli upload-dif -o opengisch -p qfield ${{ env.CMAKE_BUILD_DIR }}/android-build/build/intermediates/merged_native_libs/release
 
-  deploy_to_playstore:
-    runs-on: ubuntu-20.04
-    needs: build
-    if: ${{ github.event_name == 'released' || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Vars
-        id: vars
-        run: |
-          ./scripts/ci/env_gh.sh
-
-      - name: Download apks
-        run: |
-          wget https://sos-ch-dk-2.exo.io/qfieldapks/ci-builds/${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-arm64-android.apk
-          wget https://sos-ch-dk-2.exo.io/qfieldapks/ci-builds/${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-arm-android.apk
-          wget https://sos-ch-dk-2.exo.io/qfieldapks/ci-builds/${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-x64-android.apk
-          wget https://sos-ch-dk-2.exo.io/qfieldapks/ci-builds/${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-x86-android.apk
-
-      - name: Upload to Google Play Store
-        run: |
-          pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib oauth2client
-
-          ./scripts/basic_upload_apks_service_account.py ch.opengis.${{ steps.vars.outputs.APP_PACKAGE_NAME }} beta "Update from commit ${GITHUB_SHA}" \
-              ${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-arm64-android.apk \
-              ${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-arm-android.apk \
-              ${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-x64-android.apk \
-              ${{ steps.vars.outputs.CI_PACKAGE_FILE_BASENAME }}-x86-android.apk
-        env:
-          GOOGLE_SERVICE_ACCOUNT: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-
-
   comment_pr:
     runs-on: ubuntu-20.04
     needs: build
