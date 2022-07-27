@@ -142,6 +142,8 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   set(SHARE_DIR "${CMAKE_BINARY_DIR}/output/bin/qfield.app/Contents/share")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
+  set(SHARE_DIR "${CMAKE_CURRENT_BINARY_DIR}/android-build/assets/share")
 else()
   set(SHARE_DIR "${CMAKE_BINARY_DIR}/output/share")
 endif()
